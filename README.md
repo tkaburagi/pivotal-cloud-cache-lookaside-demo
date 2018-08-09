@@ -1,2 +1,2 @@
 # pivotal-cloud-cache-lookaside-demo
-# pivotal-cloud-cache-lookaside-demo
+The simplest PCC Demo app.
