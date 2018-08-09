@@ -42,16 +42,13 @@ public class BookController {
     @ResponseBody
     public String getBookById(@RequestParam(value = "id", required = true) String id) {
 
-        StringBuilder result = new StringBuilder();
         long startTime = System.currentTimeMillis();
         Book bookObject = bookSearchService.getBookById(id);
         long elapsedTime = System.currentTimeMillis();
 
         Boolean isCacheMiss = bookSearchService.isCacheMiss();
         String from = isCacheMiss ? "Database" : "Pivotal Cloud Cache";
-
-        String bookId = RandomStringUtils.randomAscii(5);
-
+        
         return String.format("Result [<b>%1$s</b>] <br/>"
                     + "Cache Miss for Book [<b>%2$s</b>] <br/>"
                     + "Read from [<b>%3$s</b>] <br/>"
