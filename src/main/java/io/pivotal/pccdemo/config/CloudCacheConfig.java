@@ -17,7 +17,7 @@ import org.springframework.session.data.gemfire.config.annotation.web.http.Enabl
 @UseMemberName("PccApiClient")
 @EnableGemfireCaching
 @EnableGemFireHttpSession(poolName = "DEFAULT")
-@EnableEntityDefinedRegions(basePackages = "io.pivotal.data.domain")
+@EnableEntityDefinedRegions(basePackages = "io.pivotal.pccdemo.domain")
 @EnableGemfireRepositories(basePackages = "io.pivotal.pccdemo.repo")
 @ComponentScan(basePackages = "io.pivotal.pccdemo.continuousquery")
 @Profile("cloud")
