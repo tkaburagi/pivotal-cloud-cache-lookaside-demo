@@ -6,5 +6,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @JsonSerialize
 @RepositoryRestResource(collectionResourceRel = "book", path = "book")
-public interface BookPccRepo extends GemfireRepository<Book, Long> {
+public interface BookPccRepository extends GemfireRepository<Book, Integer> {
 }
