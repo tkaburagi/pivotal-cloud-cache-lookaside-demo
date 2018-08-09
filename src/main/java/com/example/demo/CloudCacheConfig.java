@@ -4,6 +4,8 @@ package com.example.demo;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.gemfire.cache.config.EnableGemfireCaching;
+import org.springframework.data.gemfire.config.annotation.EnableEntityDefinedRegions;
 import org.springframework.data.gemfire.config.annotation.EnableLogging;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.geode.config.annotation.EnableDurableClient;
@@ -16,5 +18,7 @@ import org.springframework.geode.config.annotation.UseMemberName;
 @ComponentScan(basePackages = "com.example.demo")
 @Profile("cloud")
 @Configuration
+@EnableGemfireCaching
+@EnableEntityDefinedRegions(basePackages = "com.example.demo")
 public class CloudCacheConfig {
 }

@@ -9,11 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.data.gemfire.mapping.annotation.Region;
 
 @SuppressWarnings("serial")
 @Entity
 @JsonSerialize
-@Table(name="book")
+@Table(name = "book")
+@Region(name = "book")
 public class Book implements Serializable {
     @Id
     @GeneratedValue
