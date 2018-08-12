@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http:///www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+    <title>PCC Demo</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link href="/css/blog.css" th:href="@{/css/blog.css}" rel="stylesheet" >
+
+    <!--[if lt IE 9]>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+    <![endif]-->
+    <link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css' />
+    <style type="text/css">
+        .logo {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">Pivotal Cloud Cache Demo</h1>
+            <h2 class="brand-tagline"> Cache Enverything!</h2>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="https://docs.pivotal.io/p-cloud-cache/1-4/index.html">
+                            <font class="logo">Document </font> <i class="fas fa-book-open"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="pure-button" href="https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo">
+                            <font class="logo">Github</font> <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <div class="posts">
+                <h1 class="content-subhead">Cache Status</h1>
+                <section class="post">
+                    <h2 class="post-title">Current Cache Count</h2>
+                    <div class="post-description">
+                        <p th:text="Current Number of Cache in PCC:" th:text="${cachecount}"></p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="posts">
+                <h1 class="content-subhead">Book Searcher</h1>
+                <section class="post">
+                    <h2 class="post-title">Let's Search Book Here</h2>
+                    <div class="post-description">
+                        <form class="pure-form" th:method="get" th:action="@{/book}">
+                            <input type="text" class="pure-input-rounded" name="id" />
+                            <button type="submit" class="pure-button pure-button-primary">
+                                <i class="fas fa-search"></i><font class="logo"> Search</font>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <div class="posts">
+                <h1 class="content-subhead">Result</h1>
+                <section class="post">
+                    <h2 class="post-title">Result for Searching...</h2>
+                    <div class="post-description">
+                        <div class="pure-g">
+                            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4"> <h3>Book Title</h3> <p th:text="${tiltle}"></p> </div>
+                            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4"> <h3>Price</h3> <p th:text="${price}"> Yen</p> </div>
+                            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4"> <h3>Elapsed Time</h3> <p th:text="${time}"></p> </div>
+                            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-4"> <h3>Data Source</h3>
+                                <div th:if="${ds}">
+                                    <img th:src="@{/images/mysql.png}" src="/static/images/mysql.png" th:width="100" th:height="100"/>
+                                </div>
+                                <div th:unless="${ds}">
+                                    <img th:src="@{/images/pcc.png}" src="/static/images/pcc.png" th:width="100" th:height="100"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

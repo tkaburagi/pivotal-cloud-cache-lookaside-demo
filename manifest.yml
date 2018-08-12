@@ -5,3 +5,5 @@ applications:
   services:
   - mypcc-small
   - mysql
+  env:
+    management.security.enabled: false

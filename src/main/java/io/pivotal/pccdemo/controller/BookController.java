@@ -5,15 +5,16 @@ import io.pivotal.pccdemo.domain.Book;
 import io.pivotal.pccdemo.jpa.repo.BookJpaRepository;
 import io.pivotal.pccdemo.repo.BookRepo;
 import io.pivotal.pccdemo.service.BookSearchService;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@RestController
+@Controller
 @DependsOn({"gemfireCache"})
 public class BookController {
 
@@ -28,7 +29,6 @@ public class BookController {
 
     @SuppressWarnings("deprecation")
     @RequestMapping(method = RequestMethod.GET, path = "/showdb-book")
-    @ResponseBody
     public String showDB() throws Exception {
         StringBuilder result = new StringBuilder();
 
@@ -38,9 +38,13 @@ public class BookController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, path = "/book")
-    @ResponseBody
-    public String getBookById(@RequestParam(value = "id", required = true) String id) {
+    @RequestMapping(value = "/")
+    public String index() {
+        return "index.html";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/book")
+    public String getBookById(@RequestParam(value = "id", required = true) String id, Model model) {
 
         long startTime = System.currentTimeMillis();
         Book bookObject = bookSearchService.getBookById(id);
@@ -48,15 +52,18 @@ public class BookController {
 
         Boolean isCacheMiss = bookSearchService.isCacheMiss();
         String from = isCacheMiss ? "Database" : "Pivotal Cloud Cache";
-        
-        return String.format("Result [<b>%1$s</b>] <br/>"
-                    + "Cache Miss for Book [<b>%2$s</b>] <br/>"
-                    + "Read from [<b>%3$s</b>] <br/>"
-                    + "Elapsed Time [<b>%4$s ms</b>]%n", bookObject.getTitle(), isCacheMiss, from, (elapsedTime - startTime));
+
+        model.addAttribute("tiltle", bookObject.getTitle());
+        model.addAttribute("price", bookObject.getPrice());
+        model.addAttribute("author_name", bookObject.getAuthor_name());
+        model.addAttribute("ds", isCacheMiss);
+        model.addAttribute("time", elapsedTime - startTime);
+        model.addAttribute("cachecount", book.count());
+
+        return "/pccdemo/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/allbooks")
-    @ResponseBody
     public String getAllBooks() {
 
         StringBuilder result = new StringBuilder();
