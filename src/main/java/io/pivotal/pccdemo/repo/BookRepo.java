@@ -8,7 +8,9 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(path = "books")
 public interface BookRepo extends GemfireRepository<Book, String> {
 
-    @Query("SELECT * FROM /book o WHERE o.id = $1" )
+    @Query("SELECT * FROM /book b WHERE b.id = $1" )
     Book findBookById(String id);
 
+    @Query("SELECT * FROM /book b WHERE b.title='PCF 3.0'" )
+    Book findPCFByTitle(String title);
 }

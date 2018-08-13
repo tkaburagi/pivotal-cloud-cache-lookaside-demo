@@ -114,6 +114,28 @@
                     </div>
                 </section>
             </div>
+            <div class="posts">
+                <h1 class="content-subhead">New Book Arraival</h1>
+                <section class="post">
+                    <h2 class="post-title">Record New Book</h2>
+                    <div class="post-description">
+                        <p>If you would like to ship new book, enter this form and hit the 'Ship it'!</p>
+                    </div>
+                    <div>
+                        <form class="pure-form" th:method="put" th:action="@{/put}">
+                            <fieldset class="pure-group">
+                                <input type="text" class="pure-input-1-2" placeholder="Title" name="title">
+                                <input type="text" class="pure-input-1-2" placeholder="Price" name="price">
+                                <input type="text" class="pure-input-1-2" placeholder="Author" name="author_name">
+                            </fieldset>
+                            <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">
+                                <font class="logo"> Ship it </font><i class="fas fa-shipping-fast"></i>
+
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </div>
