@@ -31,25 +31,49 @@
 <body>
 
 <div id="layout" class="pure-g">
-    <div class="sidebar pure-u-1 pure-u-md-1-4">
-        <div class="header">
-            <h1 class="brand-title">Pivotal Cloud Cache Demo</h1>
-            <h2 class="brand-tagline"> Cache Enverything!</h2>
-
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a class="pure-button" href="https://docs.pivotal.io/p-cloud-cache/1-4/index.html">
-                            <font class="logo">Document </font> <i class="fas fa-book-open"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="pure-button" href="https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo">
-                            <font class="logo">Github</font> <i class="fab fa-github"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <div th:unless="${cqstatus}">
+        <div class="sidebar pure-u-1 pure-u-md-1-4">
+            <div class="header">
+                <h1 class="brand-title">Pivotal Cloud Cache Demo</h1>
+                <h2 class="brand-tagline"> Cache Enverything!</h2>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="pure-button" href="https://docs.pivotal.io/p-cloud-cache/1-4/index.html">
+                                <font class="logo">Document </font> <i class="fas fa-book-open"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="pure-button" href="https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo">
+                                <font class="logo">Github</font> <i class="fab fa-github"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div th:if="${cqstatus}">
+        <div class="sidebar-red pure-u-1 pure-u-md-1-4">
+            <div class="header">
+                <h1 class="brand-title">Pivotal Cloud Cache Demo</h1>
+                <h2 class="brand-tagline"> Cache Enverything!</h2>
+                <h3 class="brand-title">PCF 3.0 Book is Available Now!!!</h3>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a class="pure-button" href="https://docs.pivotal.io/p-cloud-cache/1-4/index.html">
+                                <font class="logo">Document </font> <i class="fas fa-book-open"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="pure-button" href="https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo">
+                                <font class="logo">Github</font> <i class="fab fa-github"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 

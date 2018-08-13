@@ -5,8 +5,12 @@ import io.pivotal.pccdemo.domain.Book;
 import io.pivotal.pccdemo.jpa.repo.BookJpaRepository;
 import io.pivotal.pccdemo.repo.BookRepo;
 import io.pivotal.pccdemo.service.BookSearchService;
+import org.apache.geode.cache.Operation;
+import org.apache.geode.cache.query.CqEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.gemfire.listener.annotation.ContinuousQuery;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -28,21 +32,36 @@ public class BookController {
     @Autowired
     BookSearchService bookSearchService;
 
+
     @RequestMapping(value = "/")
-    public String flush() {
+    public String flush(Model model) {
+        book.deleteById("PCF 3.0");     // for cq demo
         book.deleteAll();
+        model.addAttribute("cqstatus", new BookCq().cqstatus);
         return "/pccdemo/index";
     }
 
     @Transactional
     @RequestMapping(method = RequestMethod.PUT, value = "/put")
-    public String putBook(String title, String price, String author_name) { ;
+    public String putBook(String title, String price, String author_name, Model model) { ;
         Book bookObject = new Book();
         bookObject.setTitle(title);
         bookObject.setPrice(price);
-        bookObject.setId(java.util.UUID.randomUUID().toString());
+        if(title.equals("PCF 3.0")) {       // for cq demo
+            bookObject.setId(title);
+        } else {
+            bookObject.setId(java.util.UUID.randomUUID().toString());
+        }
         bookObject.setAuthor_name(author_name);
         book.save(bookObject);
+        model.addAttribute("cqstatus", new BookCq().cqstatus);
+
+        try{
+
+            Thread.sleep(500);
+
+        }catch(InterruptedException e){}
+
 
         return "/pccdemo/index";
     }
@@ -62,6 +81,7 @@ public class BookController {
         model.addAttribute("ds", isCacheMiss);
         model.addAttribute("time", elapsedTime - startTime);
         model.addAttribute("cachecount", book.count());
+        model.addAttribute("cqstatus", new BookCq().cqstatus);
 
         return "/pccdemo/index";
     }
@@ -109,5 +129,33 @@ public class BookController {
         }
         return "No Results Found.";
     }
+}
 
+@Component
+class BookCq {
+    public static boolean cqstatus = false;
+
+    @ContinuousQuery(name = "PCFQuery", query = "SELECT * FROM /book b WHERE b.title='PCF 3.0'", durable = true)
+    public void handleBookEvent(CqEvent event) {
+        System.out.println("*********Logging CQ Event from Lisntener!!!*********");
+        Operation queryOperation = event.getQueryOperation();
+        if (queryOperation.isUpdate())
+        {
+            // update data on the screen for the trade order . . .
+            System.out.println("*********UPDATED*********");
+            cqstatus = true;
+        }
+        else if (queryOperation.isCreate())
+        {
+            // add the trade order to the screen . . .
+            System.out.println("*********CREATED*********");
+            cqstatus = true;
+        }
+        else if (queryOperation.isDestroy())
+        {
+            // remove the trade order from the screen . . .
+            System.out.println("*********DESTROYED*********");
+            cqstatus = false;
+        }
+    }
 }

@@ -73,6 +73,11 @@ h4 {
     color: #fff;
 }
 
+.sidebar-red {
+    background: rgb(255, 102, 102);
+    color: #fff;
+}
+
 .brand-title,
 .brand-tagline {
     margin: 0;
@@ -203,6 +208,12 @@ h4 {
     }
 
     .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+    }
+
+    .sidebar-red {
         position: fixed;
         top: 0;
         bottom: 0;
