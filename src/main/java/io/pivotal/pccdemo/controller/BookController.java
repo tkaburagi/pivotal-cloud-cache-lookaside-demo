@@ -39,8 +39,9 @@ public class BookController {
 
 
     @RequestMapping(value = "/")
-    public String index() {
-        return "index.html";
+    public String flush() {
+        book.deleteAll();
+        return "/pccdemo/index";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/book")
@@ -51,14 +52,30 @@ public class BookController {
         long elapsedTime = System.currentTimeMillis();
 
         Boolean isCacheMiss = bookSearchService.isCacheMiss();
-        String from = isCacheMiss ? "Database" : "Pivotal Cloud Cache";
+        book.
 
-        model.addAttribute("tiltle", bookObject.getTitle());
+        model.addAttribute("title", bookObject.getTitle());
         model.addAttribute("price", bookObject.getPrice());
         model.addAttribute("author_name", bookObject.getAuthor_name());
         model.addAttribute("ds", isCacheMiss);
         model.addAttribute("time", elapsedTime - startTime);
         model.addAttribute("cachecount", book.count());
+
+        return "/pccdemo/index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/bookdb")
+    public String getBookByIdDb(@RequestParam(value = "id", required = true) String id, Model model) {
+
+        long startTime = System.currentTimeMillis();
+        Book bookObject = bookJpaRepository.findBookById(id);
+        long elapsedTime = System.currentTimeMillis();
+
+        model.addAttribute("title", bookObject.getTitle());
+        model.addAttribute("price", bookObject.getPrice());
+        model.addAttribute("author_name", bookObject.getAuthor_name());
+        model.addAttribute("ds", true);
+        model.addAttribute("time", elapsedTime - startTime);
 
         return "/pccdemo/index";
     }

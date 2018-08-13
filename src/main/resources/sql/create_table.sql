@@ -1,5 +1,3 @@
-drop table book;
-
 CREATE TABLE IF NOT EXISTS book
 (
 id VARCHAR(11),
