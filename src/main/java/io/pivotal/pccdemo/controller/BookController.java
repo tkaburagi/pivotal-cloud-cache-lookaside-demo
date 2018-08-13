@@ -54,14 +54,14 @@ public class BookController {
         }
         bookObject.setAuthor_name(author_name);
         book.save(bookObject);
-        model.addAttribute("cqstatus", new BookCq().cqstatus);
 
         try{
 
-            Thread.sleep(500);
+            Thread.sleep(3000);
 
         }catch(InterruptedException e){}
 
+        model.addAttribute("cqstatus", new BookCq().cqstatus);
 
         return "/pccdemo/index";
     }
