@@ -1,8 +1,10 @@
 # pivotal-cloud-cache-lookaside-demo
 The simplest PCC Demo app.
+
+## High Level Architecture
 ![](https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo/blob/master/0.png)
 
-
+## Screenshots
 ![](https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo/blob/master/1.png)
 
 ![](https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo/blob/master/2.png)
@@ -11,7 +13,7 @@ The simplest PCC Demo app.
 
 
 ## Setup
-# Creating Service Instances on PCF
+### Creating Service Instances on PCF
 
 MySQL for PCF
 ```console
