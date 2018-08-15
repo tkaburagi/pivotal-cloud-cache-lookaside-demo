@@ -16,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @Controller
 @DependsOn({"gemfireCache"})
 public class BookController {
@@ -32,12 +29,13 @@ public class BookController {
     @Autowired
     BookSearchService bookSearchService;
 
+    CacheUtil cacheUtil = new CacheUtil();
 
     @RequestMapping(value = "/")
     public String flush(Model model) {
         book.deleteById("PCF 3.0");     // for cq demo
         book.deleteAll();
-        model.addAttribute("cqstatus", new BookCq().cqstatus);
+        cacheUtil.commonAttr(model, book, false);
         return "/pccdemo/index";
     }
 
@@ -54,15 +52,7 @@ public class BookController {
         }
         bookObject.setAuthor_name(author_name);
         book.save(bookObject);
-
-        try{
-
-            Thread.sleep(3000);
-
-        }catch(InterruptedException e){}
-
-        model.addAttribute("cqstatus", new BookCq().cqstatus);
-
+        cacheUtil.commonAttr(model, book, true);
         return "/pccdemo/index";
     }
 
@@ -80,8 +70,7 @@ public class BookController {
         model.addAttribute("author_name", bookObject.getAuthor_name());
         model.addAttribute("ds", isCacheMiss);
         model.addAttribute("time", elapsedTime - startTime);
-        model.addAttribute("cachecount", book.count());
-        model.addAttribute("cqstatus", new BookCq().cqstatus);
+        cacheUtil.commonAttr(model, book, false);
 
         return "/pccdemo/index";
     }
@@ -98,36 +87,25 @@ public class BookController {
         model.addAttribute("author_name", bookObject.getAuthor_name());
         model.addAttribute("ds", true);
         model.addAttribute("time", elapsedTime - startTime);
+        cacheUtil.commonAttr(model, book, false);
 
         return "/pccdemo/index";
     }
+}
 
-    @SuppressWarnings("deprecation")
-    @RequestMapping(method = RequestMethod.GET, path = "/showdb-book")
-    public String showDB() throws Exception {
-        StringBuilder result = new StringBuilder();
+class CacheUtil {
+    public void commonAttr(Model model, BookRepo book, boolean sleep) {
+        model.addAttribute("cachecount", book.count());
 
-        List<Book> booklist = bookJpaRepository.findAll();
+        if(sleep) {
+            try{
 
-        return "First Book is show here: <br/>" + booklist.get(0).getTitle();
-    }
+                Thread.sleep(3000);
 
-    @RequestMapping(method = RequestMethod.GET, path = "/allbooks")
-    public String getAllBooks() {
-
-        StringBuilder result = new StringBuilder();
-        long startTime = System.currentTimeMillis();
-        Iterable<Book> bookObject = book.findAll();
-        long elapsedTime = System.currentTimeMillis();
-
-
-        if (bookObject != null) {
-            bookObject.forEach(item -> result.append(item + "</br>"));
-
-            return String.format("Result [<b>%1$s</b>] <br/>"
-                    + "Elapsed Time [<b>%2$s ms</b>]%n", result.toString(), (elapsedTime - startTime));
+            }catch(InterruptedException e){}
         }
-        return "No Results Found.";
+
+        model.addAttribute("cqstatus", new BookCq().cqstatus);
     }
 }
 
