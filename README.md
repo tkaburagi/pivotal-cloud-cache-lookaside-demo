@@ -79,5 +79,6 @@ $ gfsh> create region --name=book --type=REPLICATE
 cf push
 ```console
 $ git clone https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo
+$ cd pivotal-cloud-cache-lookaside-demo
 $ cf push
 ```
