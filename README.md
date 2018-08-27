@@ -72,8 +72,8 @@ Getting key my-service-key for service instance mypcc-small as tkaburagi@pivotal
 Creating region on PCC
 ```console
 $ gfsh
-$ connect --use-http=true --use-ssl --url=<GFSH_URL> --user=c=***** --password=*****
-$ create region --name=book --type=REPLICATE
+gfsh> connect --use-http=true --use-ssl --url=<GFSH_URL> --user=c=***** --password=*****
+gfsh> create region --name=book --type=REPLICATE
 ```
 
 cf push
