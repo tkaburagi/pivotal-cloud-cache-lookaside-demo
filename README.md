@@ -81,5 +81,5 @@ cf push
 ```console
 $ git clone https://github.com/tkaburagi/pivotal-cloud-cache-lookaside-demo
 $ cd pivotal-cloud-cache-lookaside-demo
-$ cf push
+$ ./mvnw package -Dmaven.test.skip=true && cf push -p target/pcc-demo-0.0.1-SNAPSHOT.jar
 ```
